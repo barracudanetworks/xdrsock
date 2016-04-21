@@ -1,4 +1,4 @@
-Copyright (c) 2015, Barracuda Networks
+Copyright (c) 2015, Barracuda Networks.
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
