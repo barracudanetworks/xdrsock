@@ -42,9 +42,14 @@ class XDRSock(object):
         self.__p.pack_uint(integer)
         self.__s.sendall(self.__p.get_buffer())
 
+    def send_i32(self, integer):
+        self.__p.reset()
+        self.__p.pack_int(integer)
+        self.__s.sendall(self.__p.get_buffer())
+
     def receive_u32(self):
         """
-        Return a 32-bit integer
+        Receive an unsigned 32-bit integer
 
         Note that 8 and 16 bit integers are padded to 32 bits, so they are also
         received with this function.
@@ -53,13 +58,34 @@ class XDRSock(object):
         self.__u.reset(b)
         return self.__u.unpack_uint()
 
+    def receive_i32(self):
+        """
+        Receive a signed 32-bit integer
+
+        Note that 8 and 16 bit integers are padded to 32 bits, so they are also
+        received with this function.
+        """
+        b = self.receive(4)
+        self.__u.reset(b)
+        return self.__u.unpack_int()
+
     def send_u64(self, integer):
         self.__p.reset()
         self.__p.pack_uhyper(integer)
         self.__s.sendall(self.__p.get_buffer())
 
+    def send_i64(self, integer):
+        self.__p.reset()
+        self.__p.pack_hyper(integer)
+        self.__s.sendall(self.__p.get_buffer())
+
     def receive_u64(self):
         return (self.receive_u32() << 32) | self.receive_u32()
+
+    def receive_i64(self):
+        b = self.receive(8)
+        self.__u.reset(b)
+        return self.__u.unpack_hyper()
 
     def send_fixed_string(self, length, string):
         self.__p.reset()
