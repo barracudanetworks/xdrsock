@@ -17,6 +17,7 @@ class UTC(tzinfo):
     def dst(self, dt):
         return UTC.ZERO
 
+
 _utc = UTC()
 
 
